@@ -18,10 +18,15 @@ jobs:
       uses: docker/setup-buildx-action@v2
 
     - name: Build Docker images
-      run: docker compose build
+      run: |
+        cd project
+        docker compose build
 
     - name: Start containers
-      run: docker compose up -d
+      run: |
+        cd project
+        docker compose up -d
+     
 
     # Пример проверки доступности Flask приложения
     - name: Check Flask webhook service
