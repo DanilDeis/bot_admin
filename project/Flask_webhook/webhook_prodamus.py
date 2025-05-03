@@ -58,6 +58,7 @@ def webhook():
 
 
 
+
 def send_telegram_notification(chat_id: str, message: str):
     """Отправка сообщения в Telegram пользователю"""
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
