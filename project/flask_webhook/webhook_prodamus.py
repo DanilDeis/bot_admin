@@ -129,7 +129,9 @@ def process_payment(chat_id: int, user_name: str):
 <a href="{invite_link}">Вступить в закрытый канал</a>"""
     send_telegram_message(chat_id, message, parse_mode="HTML")
 
-
+@app.route('/health')
+def health():
+    return 'OK', 200
 
 
 if __name__ == "__main__":
