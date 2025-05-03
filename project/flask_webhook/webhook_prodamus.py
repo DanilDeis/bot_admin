@@ -1,15 +1,35 @@
 from flask import Flask, request, jsonify
 import requests
-from common.database import db
+from common.database import Database
 from datetime import datetime
 import re
 from common.config import TELEGRAM_BOT_TOKEN, CHANNEL_ID, SECRET_KEY
-from bot.admin import get_invite_link_sync
 import time
+
+db = Database('users.db')
+
 
 app = Flask(__name__)
 
 SECRET_KEY_1 = SECRET_KEY.encode('utf-8')
+
+def get_invite_link_sync(bot_token, channel_id, user_name, limit=None, expire_date=None):
+    url = f"https://api.telegram.org/bot{bot_token}/createChatInviteLink"
+    params = {
+        "chat_id": channel_id,
+        "name": user_name,
+        "creates_join_request": True
+    }
+    if limit and limit > 0:
+        params["member_limit"] = limit
+        params["creates_join_request"] = False
+    if expire_date:
+        params["expire_date"] = expire_date
+    resp = requests.post(url, json=params).json()
+    print("Ответ Telegram API:", resp)
+    if resp.get("ok"):
+        return resp["result"]["invite_link"]
+    return None
 
 def send_telegram_message(chat_id, text, parse_mode=None):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"

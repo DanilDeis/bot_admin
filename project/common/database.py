@@ -2,8 +2,6 @@ import os
 import sqlite3
 from datetime import datetime, timedelta
 
-
-
 class Database:
     def __init__(self, db_file):
         # Исправленный путь для Linux (уберите префикс C:\ для Windows)

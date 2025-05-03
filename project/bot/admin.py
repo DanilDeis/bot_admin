@@ -8,39 +8,18 @@ from aiogram.filters import Command
 from aiogram.filters import ChatMemberUpdatedFilter, IS_NOT_MEMBER, IS_MEMBER
 from aiogram import types
 from datetime import datetime
-from common.database import db
+from common.database import Database
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton,ReplyKeyboardMarkup,KeyboardButton
 import re
-import requests
 from dotenv import load_dotenv
-from common.scedule import on_startup
+from .scedule import on_startup
 from common.config import CHANNEL_ID, ADMIN_CHAT_ID,BASE_URL, bot
 
 load_dotenv()
 
 
-
+db = Database('users.db')
 dp = Dispatcher()
-
-
-def get_invite_link_sync(bot_token, channel_id, user_name, limit=None, expire_date=None):
-    url = f"https://api.telegram.org/bot{bot_token}/createChatInviteLink"
-    params = {
-        "chat_id": channel_id,
-        "name": user_name,
-        "creates_join_request": True
-    }
-    if limit and limit > 0:
-        params["member_limit"] = limit
-        params["creates_join_request"] = False
-    if expire_date:
-        params["expire_date"] = expire_date
-    resp = requests.post(url, json=params).json()
-    print("Ответ Telegram API:", resp)
-    if resp.get("ok"):
-        return resp["result"]["invite_link"]
-    return None
-
 
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message):

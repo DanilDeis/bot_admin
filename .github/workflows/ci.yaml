@@ -2,15 +2,32 @@ name: CI
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ develop ]
+    branches: [ main, develop ]
 
 jobs:
-  build:
-    runs-on: self-hosted
+  build-and-test:
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Run a script
-      run: echo "Hello from self-hosted runner on develop branch!"
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Docker images
+      run: docker-compose build
+
+    - name: Start containers
+      run: docker-compose up -d
+
+    # Пример проверки доступности Flask приложения
+    - name: Check Flask webhook service
+      run: |
+        sleep 10  # дождаться запуска
+        curl -f http://localhost:8000/ || exit 1
+
+    - name: Shutdown containers
+      run: docker-compose down
