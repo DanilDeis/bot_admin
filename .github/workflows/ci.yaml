@@ -35,7 +35,14 @@ jobs:
 
     - name: Wait for services to be ready
       run: sleep 10
-
+    - name: Show docker compose ps
+      run: |
+        cd project
+        docker compose ps
+    - name: Show docker compose logs
+      run: |
+        cd project
+        docker compose logs
     - name: Wait for Flask webhook service
       run: |
         for i in {1..30}; do
