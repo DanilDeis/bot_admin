@@ -45,36 +45,44 @@ def send_telegram_message(chat_id, text, parse_mode=None):
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    data = request.form.to_dict()
-    print("Полученные данные:", data)  # Для отладки
-    phone = data.get("customer_phone")
-    print("Номер телефона из продамуса", phone)
-    if not phone:
-        return jsonify({"status": "error", "message": "Не указан номер телефона"}), 400
-
-    phone = re.sub(r'[^0-9]', '', phone)
-    phone = phone[-10:]
-    amount_str = data.get("sum")
     try:
-        amount = float(amount_str)
-    except (TypeError, ValueError):
-        amount = None
+        if request.is_json:
+            data = request.get_json()
+        else:
+            data = request.form.to_dict()
 
-    chat_id = db.get_chat_id_by_phone(phone)
-    phone_1 = db.get_phone_by_id(chat_id)
-    print("Номер телефона из базы данных", phone_1)
+        print("Полученные данные:", data)
+        phone = data.get("customer_phone")
+        print("Номер телефона из Продамуса", phone)
+        if not phone:
+            return jsonify({"status": "error", "message": "Не указан номер телефона"}), 400
 
-    if chat_id and amount is not None and data.get("payment_status") == "success":
-        db.set_join_date(chat_id, datetime.now())
-        user_name = get_username(chat_id, TELEGRAM_BOT_TOKEN)
-        process_payment(chat_id, user_name)
-        send_telegram_message(
-            chat_id=chat_id,
-            text="Спасибо за покупку! Ваш аккаунт активирован."
-        )
-    else:
-        print("Пользователь с этим телефоном не найден или сумма не указана.")
-    return jsonify({"status": "ok"})
+        phone = re.sub(r'[^0-9]', '', phone)
+        phone = phone[-10:]
+        amount_str = data.get("sum")
+        try:
+            amount = float(amount_str)
+        except (TypeError, ValueError):
+            amount = None
+
+        chat_id = db.get_chat_id_by_phone(phone)
+        phone_1 = db.get_phone_by_id(chat_id)
+        print("Номер телефона из базы данных", phone_1)
+
+        if chat_id and amount is not None and data.get("payment_status") == "success":
+            db.set_join_date(chat_id, datetime.now())
+            user_name = get_username(chat_id, TELEGRAM_BOT_TOKEN)
+            process_payment(chat_id, user_name)
+            send_telegram_message(
+                chat_id=chat_id,
+                text="Спасибо за покупку! Ваш аккаунт активирован."
+            )
+        else:
+            print("Пользователь с этим телефоном не найден или сумма не указана.")
+        return jsonify({"status": "ok"})
+    except Exception as e:
+        print(f"Ошибка в обработчике webhook: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 
 
