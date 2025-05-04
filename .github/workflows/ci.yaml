@@ -67,3 +67,9 @@ jobs:
       run: |
         cd project
         docker compose down
+        
+
+    - name: Deploy
+      run: |
+        cd project
+        bash deploy.sh
