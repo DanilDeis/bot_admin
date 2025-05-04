@@ -28,6 +28,7 @@ jobs:
         BASE_URL=https://payform.ru/u77coTH/
         EOF
 
+
     - name: Build Docker images
       run: |
         cd project
