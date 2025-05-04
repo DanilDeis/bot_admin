@@ -68,7 +68,7 @@ jobs:
       run: |
         cd project
         docker compose down
-        
+
   deploy:
     needs: build-and-test
     runs-on: [ self-hosted, linux, vm ]
@@ -82,7 +82,25 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/key
           chmod 600 ~/.ssh/key
+
       - name: Run deploy script
         run: |
           cd project
           bash ./deploy.sh
+#  deploy:
+#    needs: build-and-test
+#    runs-on: [ self-hosted, linux, vm ]
+#
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v4
+#
+#      - name: Setup SSH key
+#        run: |
+#          mkdir -p ~/.ssh
+#          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/key
+#          chmod 600 ~/.ssh/key
+#      - name: Run deploy script
+#        run: |
+#          cd project
+#          bash ./deploy.sh
