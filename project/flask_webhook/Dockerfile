@@ -7,7 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY common/ ./common/
 #COPY .env .env
-
 # Для Flask:
 COPY flask_webhook/ ./flask_webhook/
 
