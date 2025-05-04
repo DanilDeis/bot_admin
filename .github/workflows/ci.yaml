@@ -68,13 +68,15 @@ jobs:
       #  cd project
        # docker compose down
         
+  deploy:
+    needs: build-and-test
+    runs-on: [ self-hosted, linux, vm ]
 
-    - name: Deploy
-      run: |
-        set -eu
-        mkdir -p "$HOME/.ssh"
-        echo "${{ secrets.key }}" > "$HOME/.ssh/key"
-        chmod 600 "$HOME/.ssh/key"
-        echo "${{ secrets.key }}"
-        cd project
-        bash deploy.sh
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy script
+        run: |
+          cd project
+          bash ./deploy.sh
