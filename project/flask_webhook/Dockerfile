@@ -8,5 +8,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY common/ ./common/
 #COPY .env .env
 COPY flask_webhook/ ./flask_webhook/
-
+COPY users.db /app/users.db
 CMD ["gunicorn", "flask_webhook.webhook_prodamus:app", "-b", "0.0.0.0:8000", "-t", "120", "--access-logfile", "-", "--error-logfile", "-"]

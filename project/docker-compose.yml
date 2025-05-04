@@ -5,8 +5,8 @@ services:
       dockerfile: bot/Dockerfile
     env_file:
       - .env
-    volumes:
-      - ./users.db:/app/users.db
+#    volumes:
+#      - ./users.db:/app/users.db
 
 
   flask_webhook:
@@ -17,5 +17,5 @@ services:
       - .env
     ports:
       - "8000:8000"
-    volumes:
-      - ./users.db:/app/users.db
+#    volumes:
+#      - ./users.db:/app/users.db
