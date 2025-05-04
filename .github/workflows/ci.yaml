@@ -76,7 +76,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Deploy script
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/key
+          chmod 600 ~/.ssh/key
+
+      - name: Run deploy script
         run: |
           cd project
           bash ./deploy.sh
