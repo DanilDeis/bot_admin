@@ -114,6 +114,7 @@ def get_username(chat_id, bot_token):
         else:
             return f"{user.get('first_name', '')} {user.get('last_name', '')}".strip()
     return "Пользователь"
+
 def process_payment(chat_id: int, user_name: str):
     # Устанавливаем срок действия ссылки: 15 секунд от текущего времени
     expire_date = int(time.time()) + 365
