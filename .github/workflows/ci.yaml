@@ -65,7 +65,6 @@ jobs:
 #      - name: Shutdown containers
 #        working-directory: ./project
 #        run: docker compose down
-
   deploy:
     needs: build-and-test
     runs-on: [self-hosted, linux, vm]
