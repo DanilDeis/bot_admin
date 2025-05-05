@@ -17,7 +17,13 @@ jobs:
     - name: Set up Docker Build
       uses: docker/setup-buildx-action@v2
 
-
+    - name: Create .env file
+      working-directory: ./bot_admin
+      run: |
+        echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> .env
+        echo "CHANNEL_ID=${{ secrets.CHANNEL_ID }}" >> .env
+        echo "ADMIN_CHAT_ID=${{ secrets.ADMIN_CHAT_ID }}" >> .env
+        echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
 
     - name: Build Docker images
       run: |
