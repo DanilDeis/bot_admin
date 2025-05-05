@@ -67,7 +67,7 @@ jobs:
 #        run: docker compose down
   deploy:
     needs: build-and-test
-    runs-on: [self-hosted, linux, vm]
+    runs-on: [self-hosted, linux, X64]
 
     steps:
       - name: Checkout repository
