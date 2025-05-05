@@ -14,60 +14,50 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-#    - name: Set up Docker Build
-#      uses: docker/setup-buildx-action@v2
-#
-#    - name: Create .env file
-#      run: |
-#        cd project
-#        cat > .env <<EOF
-#        TELEGRAM_BOT_TOKEN=7460006864:AAFSkhVWk0IwgZjK8fuBZx5Jk4F7X_oWkjM
-#        CHANNEL_ID=-1002228367571
-#        ADMIN_CHAT_ID=877631642
-#        SECRET_KEY=11b67d7be7d567a94b2b1bcc612f71e06de31d55d85af8154e552713ee96ae36
-#        BASE_URL=https://payform.ru/u77coTH/
-#        EOF
-#
-#
-#    - name: Build Docker images
-#      run: |
-#        cd project
-#        docker compose build
-#
-#    - name: Start containers
-#      run: |
-#        cd project
-#        docker compose up -d
-#
-#    - name: Wait for services to be ready
-#      run: sleep 10
-#
-#    - name: Show docker compose ps
-#      run: |
-#        cd project
-#        docker compose ps
-#
-#    - name: Show docker compose logs
-#      run: |
-#        cd project
-#        docker compose logs
-#
-#    - name: Wait for Flask webhook service
-#      run: |
-#        for i in {1..30}; do
-#          if curl -f http://localhost:8000/health; then
-#            exit 0
-#          fi
-#          sleep 2
-#        done
-#        echo "Service did not start in time" >&2
-#        docker ps
-#        exit 1
-#
-#    - name: Shutdown containers
-#      run: |
-#        cd project
-#        docker compose down
+    - name: Set up Docker Build
+      uses: docker/setup-buildx-action@v2
+
+
+
+    - name: Build Docker images
+      run: |
+        cd project
+        docker compose build
+
+    - name: Start containers
+      run: |
+        cd project
+        docker compose up -d
+
+    - name: Wait for services to be ready
+      run: sleep 10
+
+    - name: Show docker compose ps
+      run: |
+        cd project
+        docker compose ps
+
+    - name: Show docker compose logs
+      run: |
+        cd project
+        docker compose logs
+
+    - name: Wait for Flask webhook service
+      run: |
+        for i in {1..30}; do
+          if curl -f http://localhost:8000/health; then
+            exit 0
+          fi
+          sleep 2
+        done
+        echo "Service did not start in time" >&2
+        docker ps
+        exit 1
+
+    - name: Shutdown containers
+      run: |
+        cd project
+        docker compose down
 
   deploy:
     needs: build-and-test
@@ -87,20 +77,4 @@ jobs:
         run: |
           cd project
           bash ./deploy.sh
-#  deploy:
-#    needs: build-and-test
-#    runs-on: [ self-hosted, linux, vm ]
-#
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v4
-#
-#      - name: Setup SSH key
-#        run: |
-#          mkdir -p ~/.ssh
-#          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/key
-#          chmod 600 ~/.ssh/key
-#      - name: Run deploy script
-#        run: |
-#          cd project
-#          bash ./deploy.sh
+
