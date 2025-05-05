@@ -15,7 +15,6 @@ db = Database('users.db')
 
 app = Flask(__name__)
 
-SECRET_KEY_1 = SECRET_KEY.encode('utf-8')
 
 def get_invite_link_sync(bot_token, channel_id, user_name, limit=None, expire_date=None):
     url = f"https://api.telegram.org/bot{bot_token}/createChatInviteLink"
