@@ -2,72 +2,68 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Docker Build
-      uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Build
+        uses: docker/setup-buildx-action@v2
 
-    - name: Create .env file
-      working-directory: ./project
-      run: |
-        echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> .env
-        echo "CHANNEL_ID=${{ secrets.CHANNEL_ID }}" >> .env
-        echo "ADMIN_CHAT_ID=${{ secrets.ADMIN_CHAT_ID }}" >> .env
-        echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+      - name: Create .env file
+        working-directory: ./project
+        run: |
+          echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> .env
+          echo "CHANNEL_ID=${{ secrets.CHANNEL_ID }}" >> .env
+          echo "ADMIN_CHAT_ID=${{ secrets.ADMIN_CHAT_ID }}" >> .env
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
 
-    - name: Build Docker images
-      run: |
-        cd project
-        docker compose build
+      - name: Build Docker images
+        working-directory: ./project
+        run: docker compose build
 
-    - name: Start containers
-      run: |
-        cd project
-        docker compose up -d
+      - name: Start containers
+        working-directory: ./project
+        run: docker compose up -d
 
-    - name: Wait for services to be ready
-      run: sleep 10
+      - name: Wait for services to be ready
+        run: sleep 10
 
-    - name: Show docker compose ps
-      run: |
-        cd project
-        docker compose ps
+      - name: Show docker compose ps
+        working-directory: ./project
+        run: docker compose ps
 
-    - name: Show docker compose logs
-      run: |
-        cd project
-        docker compose logs
+      - name: Show docker compose logs
+        working-directory: ./project
+        run: docker compose logs
 
-    - name: Wait for Flask webhook service
-      run: |
-        for i in {1..30}; do
-          if curl -f http://localhost:8000/health; then
-            exit 0
-          fi
-          sleep 2
-        done
-        echo "Service did not start in time" >&2
-        docker ps
-        exit 1
+      - name: Wait for Flask webhook service
+        working-directory: ./project
+        run: |
+          for i in {1..30}}; do
+            if curl -f http://localhost:8000/health; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Service did not start in time" >&2
+          docker ps
+          exit 1
 
-    - name: Shutdown containers
-      run: |
-        cd project
-        docker compose down
+      - name: Shutdown containers
+        working-directory: ./project
+        run: docker compose down
 
   deploy:
     needs: build-and-test
-    runs-on: [ self-hosted, linux, vm ]
+    runs-on: [self-hosted, linux, vm]
 
     steps:
       - name: Checkout repository
@@ -80,7 +76,6 @@ jobs:
           chmod 600 ~/.ssh/key
 
       - name: Run deploy script
-        run: |
-          cd project
-          bash ./deploy.sh
+        working-directory: ./project
+        run: bash ./deploy.sh
 
