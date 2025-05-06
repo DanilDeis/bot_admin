@@ -16,8 +16,8 @@ ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EO
   cd $DEPLOY_DIR
 
   # Строим и запускаем контейнеры
-  docker compose build
-  docker compose up -d
+  docker-compose build
+  docker-compose up -d
 
   # Запускаем watchtower, если он не запущен
   if ! docker ps --filter "name=watchtower" --format '{{.Names}}' | grep -q watchtower; then
