@@ -6,18 +6,17 @@ DEPLOY_DIR="/home/danil/"
 
 echo "Локальные файлы для копирования:"
 ls -la
+
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" "mkdir -p $DEPLOY_DIR && touch $DEPLOY_DIR/users.db"
 
-scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r . "$USER@$IP_ADDRESS":$DEPLOY_DIR
+scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r * .[!.]* "$USER@$IP_ADDRESS":$DEPLOY_DIR
 
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EOF
-
-  cd ..
+  cd $DEPLOY_DIR
   echo "Содержимое директории после копирования:"
   ls -la
   docker-compose build
   docker-compose up -d
-
   docker-compose logs --tail=50
 
   if ! docker ps --filter "name=watchtower" --format '{{.Names}}' | grep -q watchtower; then
@@ -28,3 +27,4 @@ ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EO
       --interval 300
   fi
 EOF
+
