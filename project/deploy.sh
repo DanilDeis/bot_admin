@@ -2,7 +2,7 @@
 
 USER="root"
 IP_ADDRESS="217.25.90.119"
-DEPLOY_DIR="/home/danil/project"
+DEPLOY_DIR="/home/danil/"
 
 echo "Локальные файлы для копирования:"
 ls -la
