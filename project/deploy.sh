@@ -17,9 +17,9 @@ ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EO
   echo "Содержимое директории после копирования:"
   ls -la
 
-  docker-compose build
-  docker-compose up -d
-  docker-compose logs --tail=50
+  docker compose build
+  docker compose up -d
+  docker compose logs --tail=50
 
   if ! docker ps --filter "name=watchtower" --format '{{.Names}}' | grep -q watchtower; then
     docker run -d \\
