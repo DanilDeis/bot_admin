@@ -20,7 +20,8 @@ class Database:
                     username TEXT,
                     first_name TEXT,
                     phone TEXT,
-                     join_date TIMESTAMP NULL
+                    join_date TIMESTAMP NULL,
+                    other TEXT NULL  -- Добавлен столбец other
                 )
             ''')
     def add_user(self, user_id, username, first_name, phone, other):
