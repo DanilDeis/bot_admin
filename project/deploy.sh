@@ -5,7 +5,7 @@ IP_ADDRESS="217.25.90.119"
 DEPLOY_DIR="/home/danil/project"
 START_DIR="/home/danil"
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" "mkdir -p $DEPLOY_DIR"
-scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r ../docker-compose.yml "$USER@$IP_ADDRESS":$START_DIR
+scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r ../docker-compose.yml ../.env  "$USER@$IP_ADDRESS":$START_DIR
 scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r ./* "$USER@$IP_ADDRESS":$DEPLOY_DIR
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EOF
 
