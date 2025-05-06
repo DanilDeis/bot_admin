@@ -13,14 +13,11 @@ scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r ./* "$USER@$IP_ADDRESS
 
 # Выполняем команды на сервере
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EOF
+  cd $DEPLOY_DIR
 
-  cd $START_DIR
-
-  # Строим и запускаем контейнеры
   docker-compose build
   docker-compose up -d
 
-  # Запускаем watchtower, если он не запущен
   if ! docker ps --filter "name=watchtower" --format '{{.Names}}' | grep -q watchtower; then
     docker run -d \
       --name watchtower \
@@ -29,3 +26,4 @@ ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EO
       --interval 300
   fi
 EOF
+
