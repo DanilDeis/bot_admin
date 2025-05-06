@@ -9,7 +9,7 @@ ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" "mkdi
 
 # Копируем весь проект в директорию проекта на сервере
 scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r ./* "$USER@$IP_ADDRESS":$DEPLOY_DIR
-
+ssh -i "$HOME/.ssh/id_rsa" "$USER@$IP_ADDRESS" "ls -la $DEPLOY_DIR/.env"
 # Выполняем команды на сервере
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EOF
   cd $DEPLOY_DIR
