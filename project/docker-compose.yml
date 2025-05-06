@@ -1,8 +1,8 @@
 services:
   bot:
     build:
-      context: /home/danil/
-      dockerfile: bot/Dockerfile
+      context: .
+      dockerfile: ./bot/Dockerfile
     env_file:
       - .env
     volumes:
@@ -10,8 +10,8 @@ services:
 
   flask_webhook:
     build:
-      context: /home/danil/
-      dockerfile: flask_webhook/Dockerfile
+      context: .
+      dockerfile: ./flask_webhook/Dockerfile
     env_file:
       - .env
     ports:
