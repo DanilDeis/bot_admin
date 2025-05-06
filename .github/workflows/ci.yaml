@@ -81,4 +81,4 @@ jobs:
 
       - name: Run deploy script
         working-directory: ./project
-        run: bash ./deploy.sh
+        run: bash project/deploy.sh
