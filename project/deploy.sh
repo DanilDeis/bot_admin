@@ -2,7 +2,7 @@
 
 USER="root"
 IP_ADDRESS="217.25.90.119"
-DEPLOY_DIR="/home/danil/"
+DEPLOY_DIR="/home/danil/project"
 
 echo "Локальные файлы для копирования:"
 ls -la
@@ -12,6 +12,7 @@ ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" "mkdi
 scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r * .[!.]* "$USER@$IP_ADDRESS":$DEPLOY_DIR
 
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EOF
+
   cd $DEPLOY_DIR
   echo "Содержимое директории после копирования:"
   ls -la
