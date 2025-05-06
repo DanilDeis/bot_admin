@@ -16,7 +16,6 @@ ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EO
   cd $DEPLOY_DIR
   echo "Содержимое директории после копирования:"
   ls -la
-
   docker compose build
   docker compose up -d
   docker compose logs --tail=50
