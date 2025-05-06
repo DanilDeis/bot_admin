@@ -6,7 +6,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./users.db:/app/users.db
+      - /home/danil/users.db:/app/users.db
 
 
   flask_webhook:
@@ -18,4 +18,4 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./users.db:/app/users.db
+      - /home/danil/users.db:/app/users.db
