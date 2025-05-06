@@ -23,7 +23,6 @@ class Database:
                      join_date TIMESTAMP NULL
                 )
             ''')
-
     def add_user(self, user_id, username, first_name, phone, other):
         self.conn.execute(
             """
