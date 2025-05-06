@@ -12,7 +12,6 @@ scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r . "$USER@$IP_ADDRESS":
 
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EOF
 
-
   cd $DEPLOY_DIR
   echo "Содержимое директории после копирования:"
   ls -la
