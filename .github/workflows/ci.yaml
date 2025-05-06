@@ -80,5 +80,5 @@ jobs:
           chmod 600 ~/.ssh/key
 
       - name: Run deploy script
-        working-directory: ./project
-        run: bash project/deploy.sh
+        working-directory: ./
+        run: bash ./deploy.sh
