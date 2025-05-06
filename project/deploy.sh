@@ -3,7 +3,7 @@
 USER="root"
 IP_ADDRESS="217.25.90.119"
 DEPLOY_DIR="/home/danil/project"
-
+START_DIR="/home/danil"
 # Создаём директорию и файл users.db на сервере
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" "mkdir -p $DEPLOY_DIR && touch $DEPLOY_DIR/users.db"
 
@@ -13,7 +13,7 @@ scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r ./* "$USER@$IP_ADDRESS
 
 # Выполняем команды на сервере
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EOF
-  cd $DEPLOY_DIR
+  cd $START_DIR
 
   # Строим и запускаем контейнеры
   docker-compose build
