@@ -8,7 +8,6 @@ services:
     volumes:
       - /home/danil/users.db:/app/users.db
 
-
   flask_webhook:
     build:
       context: .
