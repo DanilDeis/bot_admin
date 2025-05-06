@@ -13,6 +13,7 @@ scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r ./* "$USER@$IP_ADDRESS
 
 # Выполняем команды на сервере
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EOF
+
   cd $START_DIR
 
   # Строим и запускаем контейнеры
