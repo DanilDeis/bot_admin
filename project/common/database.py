@@ -93,4 +93,4 @@ class Database:
             )
             self.conn.commit()
 
-db = Database('../../users.db')
+db = Database('../users.db')
