@@ -8,7 +8,7 @@ echo "Локальные файлы для копирования:"
 ls -la
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" "mkdir -p $DEPLOY_DIR && touch $DEPLOY_DIR/users.db"
 
-scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r ./* "$USER@$IP_ADDRESS":$DEPLOY_DIR
+scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r . "$USER@$IP_ADDRESS":"$DEPLOY_DIR"
 
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EOF
 
