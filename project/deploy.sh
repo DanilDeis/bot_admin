@@ -4,13 +4,13 @@ USER="root"
 IP_ADDRESS="217.25.90.119"
 DEPLOY_DIR="/home/danil/project"
 
-# Создаём директорию и файл users.db на сервере
+echo "Локальные файлы для копирования:"
+ls -la
+
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" "mkdir -p $DEPLOY_DIR && touch $DEPLOY_DIR/users.db"
 
-# Копируем весь проект в директорию проекта на сервере
 scp -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no -r ./* "$USER@$IP_ADDRESS":$DEPLOY_DIR
-ssh -i "$HOME/.ssh/id_rsa" "$USER@$IP_ADDRESS" "ls -la $DEPLOY_DIR/.env"
-# Выполняем команды на сервере
+
 ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EOF
   cd $DEPLOY_DIR
 
@@ -20,6 +20,8 @@ ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EO
   docker-compose build
   docker-compose up -d
 
+  docker-compose logs --tail=50
+
   if ! docker ps --filter "name=watchtower" --format '{{.Names}}' | grep -q watchtower; then
     docker run -d \
       --name watchtower \
@@ -28,4 +30,3 @@ ssh -i "$HOME/.ssh/id_rsa" -o StrictHostKeyChecking=no "$USER@$IP_ADDRESS" << EO
       --interval 300
   fi
 EOF
-
