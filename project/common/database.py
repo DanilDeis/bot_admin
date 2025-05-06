@@ -24,13 +24,20 @@ class Database:
                 )
             ''')
 
-    def add_user(self, user_id, username, first_name, phone, join_date=None):
-        with self.conn:
-            self.conn.execute(
-                'INSERT INTO users (user_id, username, first_name, phone, join_date) VALUES (?, ?, ?, ?, ?)',
-                (user_id, username, first_name, phone, join_date)
-            )
-            self.conn.commit()
+    def add_user(self, user_id, username, first_name, phone, other):
+        self.conn.execute(
+            """
+            INSERT INTO users (user_id, username, first_name, phone, other)
+            VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(user_id) DO UPDATE SET
+                username=excluded.username,
+                first_name=excluded.first_name,
+                phone=excluded.phone,
+                other=excluded.other
+            """,
+            (user_id, username, first_name, phone, other)
+        )
+        self.conn.commit()
 
     def get_users(self):
         with self.conn:
