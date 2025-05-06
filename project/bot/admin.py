@@ -30,7 +30,7 @@ async def cmd_start(message: types.Message):
         resize_keyboard=True
     )
     await message.answer(
-        "Для продолжения работы с ботом и подписки в закрытом канале, поделитесь своим номером телефона:",
+        "Для продолжения работы с ботом и подписки в закрытом канале, поделитесь своим номером телефона:❤️",
         reply_markup=markup
     )
 
